@@ -14,9 +14,7 @@ async function buscar() {
     const proxy = "https://api.allorigins.win/raw?url=";
 
     const busca = await fetch(
-      proxy + encodeURIComponent(
-        `https://api.mercadolibre.com/sites/MLB/search?q=${termo}`
-      )
+        `https://silent-tree-1b2a.matheusmhs2010.workers.dev/`
     );
     const dados = await busca.json();
 
