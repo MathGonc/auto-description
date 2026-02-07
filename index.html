@@ -1,3 +1,5 @@
+<!DOCTYPE html> <html> <head> <meta charset="utf-8"> <title>Busca Mercado Livre</title> </head> <body> <input id="produto" placeholder="Digite o produto"> <button onclick="buscar()">Buscar</button> <pre id="resultado"></pre>
+  
 <script>
 async function buscar() {
   const termo = document.getElementById("produto").value;
@@ -11,11 +13,10 @@ async function buscar() {
   resultado.innerText = "Buscando...";
 
   try {
-    const proxy = "https://api.allorigins.win/raw?url=";
-
     const busca = await fetch(
-        `https://silent-tree-1b2a.matheusmhs2010.workers.dev/`
+      `https://silent-tree-1b2a.matheusmhs2010.workers.dev/?q=${encodeURIComponent(termo)}`
     );
+
     const dados = await busca.json();
 
     if (!dados.results || !dados.results.length) {
@@ -25,15 +26,8 @@ async function buscar() {
 
     const id = dados.results[0].id;
 
-    const desc = await fetch(
-      proxy + encodeURIComponent(
-        `https://api.mercadolibre.com/items/${id}/description`
-      )
-    );
-    const d = await desc.json();
-
     resultado.innerText =
-      d.plain_text || "Descrição não disponível";
+      `Produto encontrado:\n${dados.results[0].title}`;
 
   } catch (e) {
     resultado.innerText = "Erro ao buscar dados";
@@ -41,3 +35,5 @@ async function buscar() {
   }
 }
 </script>
+
+</body> </html>
