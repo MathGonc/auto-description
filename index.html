@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Busca Mercado Livre</title>
+</head>
+<body>
+
+<input id="produto" placeholder="Digite o produto">
+<button onclick="buscar()">Buscar</button>
+
+<pre id="resultado"></pre>
+
+<script>
+async function buscar() {
+  const termo = document.getElementById("produto").value;
+  document.getElementById("resultado").innerText = "Buscando...";
+
+  const busca = await fetch(
+    `https://api.mercadolibre.com/sites/MLB/search?q=${encodeURIComponent(termo)}`
+  );
+  const dados = await busca.json();
+
+  if (!dados.results.length) {
+    document.getElementById("resultado").innerText = "Nenhum resultado encontrado";
+    return;
+  }
+
+  const id = dados.results[0].id;
+
+  const desc = await fetch(
+    `https://api.mercadolibre.com/items/${id}/description`
+  );
+  const d = await desc.json();
+
+  document.getElementById("resultado").innerText =
+    d.plain_text || "Descrição não disponível";
+}
+</script>
+
+</body>
+</html>
